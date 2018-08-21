@@ -1,0 +1,86 @@
+## SYNOPSIS
+
+`subby` <string_in> <string_out><br>
+`subby` `-c case,...` <string_in> <string_out><br>
+
+## DESCRIPTION
+
+**subby** is a command-line tool for substituting strings and their
+case variations.
+
+By default **subby** is greedy.  It will substitute the <string_in> 
+case variations and its singular or plural equivalents.
+
+Here's a list of cases that **subby** handles.
+Note that class and module are synonyms, as are snake and underscore.
+
+    CASE                EXAMPLE
+    =====================================
+    camel               applePie
+    class | module      ApplePie
+    constant            APPLE_PIE
+    dash                apple-pie
+    lower               apple pie
+    sentence            Apple pie
+    snake | underscore  apple_pie
+    title               Apple Pie
+    upper               APPLE PIE
+
+If you wish to limit the cases that subby processes you may
+pass the `-c` option with a comma-separated list of desired cases.
+The `-c` option should be sufficient for most purposes. If you are
+interested in lower-level options read on. 
+
+If you wanted to only process singulars or plurals, you can do so
+using `--number-in`, which take an enum of <singular>, <1>, <plural>, 
+or <2>.  Note that <1> and <singular> are synonyms, as are <2> and <plural>.
+
+If you wanted to select only certain cases to convert to one
+particular case you could select your incoming cases using `-c` or
+`--case-in` and select your desired case using `--case-out`. 
+
+The same applies for singular and plurals using `--number-in` and
+`--number out`.
+
+Note that `-c` / `--case-in` is the only option that takes a list.
+If you would like to map a series of variations, a separate
+`subby` command would be required for each unique outcome variation.
+
+## OPTIONS
+
+  * `-c`, `--case-in CASE_IN,...`:  
+              acts as a filter for the list of cases to process  
+              valid arguments are the following:  
+                camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper|all  
+              default is all  
+  * `--case-out CASE_OUT`:          
+              all incoming strings will be converted to this case  
+              valid arguments are the following:  
+                camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper|match  
+              default is match (to CASE_IN)  
+  * `--number-in NUMBER_IN`:  
+              acts as a filter to limit processing to singulars, or plurals  
+              valid arguments are singular|plural|1|2|all  
+              1 and 2 are short hand for singular and plural  
+              default is all  
+  * `--number-out NUMBER_OUT`:      
+              all incoming strings will be converted to NUMBER_OUT  
+              valid arguments are singular|plural|1|2|match  
+              default is match (to NUMBER_IN)  
+
+## EXAMPLES
+
+* Replace 'applePie' and its variations with 'chocolateCake':  
+      
+  `$ cat apple_pie.txt`  
+  applePie apple_pie ApplePie ApplePies
+
+  `$ subby applePie chocolateCake < apple_pie.txt`  
+
+  chocolateCake chocolate_cake ChocolateCake ChocolateCakes
+
+* Limit which cases to process:  
+
+  `$ subby -c camel,snake applePie chocolateCake < apple_pie.txt`  
+  chocolateCake chocolate_cake ApplePie ApplePies
+

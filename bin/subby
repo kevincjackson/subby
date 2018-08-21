@@ -1,0 +1,89 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+################################################################################
+# Constans
+################################################################################
+
+EXECUTABLE_NAME = File.basename($PROGRAM_NAME)
+BANNER = "Substitutes a string and its case variations.\n\n" +
+         "Usage: #{EXECUTABLE_NAME} [options] string_in string_out\n\n"
+CASES_IN = %w( camel class constant dash lower module sentence snake title underscore upper all )
+CASES_OUT = %w( camel class constant dash lower module sentence snake title underscore upper match )
+NUMBER_IN = %w( singular plural 1 2 all )
+NUMBER_OUT = %w( singular plural 1 2 match )
+
+################################################################################
+# Parse options
+################################################################################
+options = {}
+option_parser = OptionParser.new do |opts|
+
+  opts.banner = BANNER
+
+  opts.on("-c CASE_IN,...", "--case-in", Array, 
+    "limit cases to #{CASES_IN.join('|')}") do |ci|
+    if ci.any? { |c| !CASES_IN.include? c }
+      raise OptionParser::InvalidArgument
+    else
+      options[:case_in] = ci
+    end
+  end
+
+  opts.on("--case-out CASE_OUT", CASES_OUT,
+    "convert all incoming to CASE_OUT") do |co|
+    options[:case_out] = co
+  end
+
+  opts.on("--number-in NUMBER_IN", NUMBER_IN,
+    "limit processing to singular, or plural (1 or 2)") do |ni|
+    options[:number_in] = ni
+  end
+
+  opts.on("--number-out NUMBER_OUT", NUMBER_OUT,
+    "convert all incoming to NUMBER_OUT") do |no|
+    options[:number_out] = no
+  end
+
+end
+
+option_parser.parse!
+
+################################################################################
+# Parse args
+################################################################################
+if ARGV.count == 0
+  STDERR.puts "Error: you must provide a string_in and a string_out\n\n"
+  STDERR.puts option_parser.help
+  exit(1)
+elsif ARGV.count == 1
+  STDERR.puts "Error: you must provide a string_out\n\n"
+  STDERR.puts option_parser.help
+  exit(1)
+elsif ARGV.count == 2
+  string_in = ARGV[0]
+  string_out = ARGV[1]
+else 
+  STDERR.puts "Error: expected 2 arguments, got #{ARGV.count}\n\n"
+  STDERR.puts option_parser.help
+  exit(1)
+end
+
+# proceed
+# puts options.inspect
+
+# begin
+# option_parser.parse!
+# puts options.inspect
+# rescue OptionParser::InvalidArgument => ex
+#   STDERR.puts ex.message
+#   STDERR.puts option_parser
+# end
+
+# if ARGV.include? 'DEBUG'
+#   puts "case-in: #{options[:case_in]}"
+#   puts "case-out: #{options[:case_out]}"
+#   puts "number-in: #{options[:number_in]}"
+#   puts "number-out: #{options[:number_out]}"
+# end
