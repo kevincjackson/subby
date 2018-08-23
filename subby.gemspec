@@ -1,23 +1,22 @@
-$:.push File.expand_path("../lib", __FILE__)
+$LOAD_PATH.push File.expand_path("../lib", __FILE__)
 
-require "db_backup/version"
+require "subby/version"
 
 Gem::Specification.new do |s|
-  s.name        = "db_backup"
-  s.version     = DbBackup::VERSION
+  s.name        = "subby"
+  s.version     = Subby::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["David Bryant Copeland"]
-  s.email       = ["davec@naildrivin5.com"]
-  s.homepage    = "http://www.davetron5000.com"
-  s.summary     = %q{a simple MySQL backup app}
-  s.description = %q{a simple MySQL backup app}
-
-  s.rubyforge_project = "db_backup"
-
-  s.files         = %w(
-    bin/db_backup
-  )
-  s.executables   = ['db_backup']
-  s.add_development_dependency('aruba', '~> 0.5.3')
-  s.add_development_dependency('rake')
+  s.authors     = ["Kevin Jackson"]
+  s.email       = ["kj31428@gmail.com"]
+  s.summary     = %q{Substitutes a string and its case variations}
+  s.description = %q{Substitutes a string and its case variations}
+  s.files       = %w(
+                    bin/subby
+                    man/subby.1
+                    man/subby.1.html
+                  )
+  s.executables   = ['subby']
+  s.add_dependency("activesupport")
+  s.add_development_dependency("rake","~> 10.1.0")
+  s.add_development_dependency("rdoc","~> 3.9")#
 end

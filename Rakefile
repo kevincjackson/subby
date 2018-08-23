@@ -1,13 +1,31 @@
 require 'bundler'
-require 'cucumber'
-require 'cucumber/rake/task'
+require 'rdoc/task'
+require 'rubygems/package_task'
 require 'rake/clean'
+# require 'cucumber'
+# require 'cucumber/rake/task'
 
 Bundler::GemHelper.install_tasks
 
-CUKE_RESULTS = 'results.html'
-CLEAN << CUKE_RESULTS
-Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = "features --format html -o #{CUKE_RESULTS} --format progress -x"
-  t.fork = false
+# 
+task :default => [:list_rake_tasks]
+task :list_rake_tasks do
+  sh "rake -T"
+end
+
+# Easiy package gem
+# Adds 'rake package'
+spec = eval(File.read('subby.gemspec'))
+Gem::PackageTask.new(spec) do |pkg|
+end
+
+RDoc::Task.new do |rdoc|
+  rdoc.main = "README.rdoc"
+  rdoc.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
+  rdoc.title = 'subby'
+end
+
+desc "Run all tests"
+task :test do
+  sh "bats test/test_subby.bats"
 end
