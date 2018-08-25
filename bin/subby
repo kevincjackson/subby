@@ -1,5 +1,13 @@
 #!/usr/bin/env ruby
 
+# Uncomment to work locally. 
+# Not recommended for Gem release as Rubygems handles this.
+# $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
+
+
+# This file only gets the main require.
+# Put *all* requires in lib/subby.rb
+require 'subby'
 require 'optparse'
 
 ################################################################################
@@ -9,10 +17,8 @@ require 'optparse'
 EXECUTABLE_NAME = File.basename($PROGRAM_NAME)
 BANNER = "Substitutes a string and its case variations.\n\n" +
          "Usage: #{EXECUTABLE_NAME} [options] string_in string_out\n\n"
-CASES_IN = %w( camel class constant dash lower module sentence snake title underscore upper all )
-CASES_OUT = %w( camel class constant dash lower module sentence snake title underscore upper match )
-NUMBER_IN = %w( singular plural 1 2 all )
-NUMBER_OUT = %w( singular plural 1 2 match )
+CASES = %w( camel class constant dash lower module sentence snake title 
+  underscore upper )
 
 ################################################################################
 # Parse options
@@ -23,27 +29,17 @@ option_parser = OptionParser.new do |opts|
   opts.banner = BANNER
 
   opts.on("-c CASE_IN,...", "--case-in", Array,
-    "limit cases to #{CASES_IN.join('|')}") do |ci|
-    if ci.any? { |c| !CASES_IN.include? c }
+    "limit cases to #{CASES.join('|')}") do |ci|
+    if ci.any? { |c| !CASES.include? c }
       raise OptionParser::InvalidArgument
     else
       options[:case_in] = ci
     end
   end
 
-  opts.on("--case-out CASE_OUT", CASES_OUT,
+  opts.on("--case-out CASE_OUT", CASES,
     "convert all incoming to CASE_OUT") do |co|
     options[:case_out] = co
-  end
-
-  opts.on("--number-in NUMBER_IN", NUMBER_IN,
-    "limit processing to singular, or plural (1 or 2)") do |ni|
-    options[:number_in] = ni
-  end
-
-  opts.on("--number-out NUMBER_OUT", NUMBER_OUT,
-    "convert all incoming to NUMBER_OUT") do |no|
-    options[:number_out] = no
   end
 
 end
@@ -67,18 +63,21 @@ end
 # Parse arguments
 ################################################################################
 if ARGV.count == 0
-  STDERR.puts "Error: you must provide a string_in and a string_out\n\n"
+  STDERR.puts "Subby: expected string_in string_out, got neither\n\n"
   STDERR.puts option_parser.help
   exit(1)
 elsif ARGV.count == 1
-  STDERR.puts "Error: you must provide a string_out\n\n"
+  STDERR.puts "Subby: expected string_in string_out, got string_in only\n\n"
   STDERR.puts option_parser.help
   exit(1)
 elsif ARGV.count == 2
   string_in = ARGV[0]
   string_out = ARGV[1]
 else
-  STDERR.puts "Error: expected 2 arguments, got #{ARGV.count}\n\n"
+  STDERR.puts "Subby: expected 2 arguments, got #{ARGV.count}\n\n"
+  STDERR.puts "    If you are trying to pass text, use STDIN."
+  STDERR.puts "    Example"
+  STDERR.puts "    $ cat myfile.txt | subby old new\n\n"
   STDERR.puts option_parser.help
   exit(1)
 end
@@ -99,25 +98,15 @@ if STDIN.tty?
     if STDIN.eof?
      exit 0
     end
-    file = STDIN.gets.chomp
-    # TODO Launch
+    input = STDIN.gets.chomp
+    STDOUT.puts Subby.sub( input, string_in, string_out, options )
   end
 ################################################################################
 # ELSE WE HAVE A FILE
 ################################################################################
 else
-    file = STDIN.read.chomp
-    # TODO Launch command
+  input = STDIN.read.chomp
+  STDOUT.puts Subby.sub( input, string_in, string_out, options )
+  exit 0
 end
 
-DEBUG = false
-if DEBUG
-  puts "File"
-  puts file
-
-  puts "options"
-  p options
-
-  puts "args"
-  puts string_in + " " + string_out
-end

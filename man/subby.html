@@ -80,8 +80,8 @@
 <p><strong>subby</strong> is a command-line tool for substituting strings and their
 case variations.</p>
 
-<p>By default <strong>subby</strong> is greedy.  It will substitute the <var>string_in</var>
-case variations and its singular or plural equivalents.</p>
+<p>By default <strong>subby</strong> is greedy.  It will substitute all <var>string_in</var>
+case variations that it knows.</p>
 
 <p>Here's a list of cases that <strong>subby</strong> handles.
 Note that class and module are synonyms, as are snake and underscore.</p>
@@ -99,25 +99,15 @@ title               Apple Pie
 upper               APPLE PIE
 </code></pre>
 
-<p>If you wish to limit the cases that subby processes you may
-pass the <code>-c</code> option with a comma-separated list of desired cases.
-The <code>-c</code> option should be sufficient for most purposes. If you are
-interested in lower-level options read on.</p>
+<p>If you wish to limit the cases that subby processes pass the <code>-c</code> option with a
+comma-separated list of desired cases.</p>
 
-<p>If you wanted to only process singulars or plurals, you can do so
-using <code>--number-in</code>, which take an enum of <var>singular</var>, <var>1</var>, <var>plural</var>,
-or <var>2</var>.  Note that <var>1</var> and <var>singular</var> are synonyms, as are <var>2</var> and <var>plural</var>.</p>
+<p>If you wish to convert all incoming cases to one particular case pass the
+<code>--case-out</code> option with your desired case.</p>
 
-<p>If you wanted to select only certain cases to convert to one
-particular case you could select your incoming cases using <code>-c</code> or
-<code>--case-in</code> and select your desired case using <code>--case-out</code>.</p>
-
-<p>The same applies for singular and plurals using <code>--number-in</code> and
-<code>--number out</code>.</p>
-
-<p>Note that <code>-c</code> / <code>--case-in</code> is the only option that takes a list.
-If you would like to map a series of variations, a separate
-<code>subby</code> command would be required for each unique outcome variation.</p>
+<p>Note that <code>-c</code> / <code>--case-in</code> takes an array, while <code>--case-out</code> does not.
+If you wish to map variations, a separate <code>subby</code> command would be required for
+each unique outcome variation.</p>
 
 <h2 id="OPTIONS">OPTIONS</h2>
 
@@ -125,22 +115,13 @@ If you would like to map a series of variations, a separate
 <li><code>-c</code>, <code>--case-in CASE_IN,...</code>:<br />
           acts as a filter for the list of cases to process<br />
           valid arguments are the following:<br />
-            camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper|all<br />
-          default is all</li>
+            camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper
+          default is all of the above</li>
 <li><code>--case-out CASE_OUT</code>:        <br />
           all incoming strings will be converted to this case<br />
           valid arguments are the following:<br />
-            camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper|match<br />
+            camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper
           default is match (to CASE_IN)</li>
-<li><code>--number-in NUMBER_IN</code>:<br />
-          acts as a filter to limit processing to singulars, or plurals<br />
-          valid arguments are singular|plural|1|2|all<br />
-          1 and 2 are short hand for singular and plural<br />
-          default is all</li>
-<li><code>--number-out NUMBER_OUT</code>:    <br />
-          all incoming strings will be converted to NUMBER_OUT<br />
-          valid arguments are singular|plural|1|2|match<br />
-          default is match (to NUMBER_IN)</li>
 </ul>
 
 

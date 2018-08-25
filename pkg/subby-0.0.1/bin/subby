@@ -1,0 +1,112 @@
+#!/usr/bin/env ruby
+
+# Uncomment to work locally. 
+# Not recommended for Gem release as Rubygems handles this.
+# $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
+
+
+# This file only gets the main require.
+# Put *all* requires in lib/subby.rb
+require 'subby'
+require 'optparse'
+
+################################################################################
+# Constants
+################################################################################
+
+EXECUTABLE_NAME = File.basename($PROGRAM_NAME)
+BANNER = "Substitutes a string and its case variations.\n\n" +
+         "Usage: #{EXECUTABLE_NAME} [options] string_in string_out\n\n"
+CASES = %w( camel class constant dash lower module sentence snake title 
+  underscore upper )
+
+################################################################################
+# Parse options
+################################################################################
+options = {}
+option_parser = OptionParser.new do |opts|
+
+  opts.banner = BANNER
+
+  opts.on("-c CASE_IN,...", "--case-in", Array,
+    "limit cases to #{CASES.join('|')}") do |ci|
+    if ci.any? { |c| !CASES.include? c }
+      raise OptionParser::InvalidArgument
+    else
+      options[:case_in] = ci
+    end
+  end
+
+  opts.on("--case-out CASE_OUT", CASES,
+    "convert all incoming to CASE_OUT") do |co|
+    options[:case_out] = co
+  end
+
+end
+
+# Handle invalid options
+begin
+  option_parser.parse!
+rescue OptionParser::InvalidArgument => ex
+  STDERR.puts ex.message
+  STDERR.puts
+  STDERR.puts option_parser
+  exit(1)
+rescue OptionParser::InvalidOption => ex
+  STDERR.puts ex.message
+  STDERR.puts
+  STDERR.puts option_parser
+  exit(1)
+end
+
+################################################################################
+# Parse arguments
+################################################################################
+if ARGV.count == 0
+  STDERR.puts "Subby: expected string_in string_out, got neither\n\n"
+  STDERR.puts option_parser.help
+  exit(1)
+elsif ARGV.count == 1
+  STDERR.puts "Subby: expected string_in string_out, got string_in only\n\n"
+  STDERR.puts option_parser.help
+  exit(1)
+elsif ARGV.count == 2
+  string_in = ARGV[0]
+  string_out = ARGV[1]
+else
+  STDERR.puts "Subby: expected 2 arguments, got #{ARGV.count}\n\n"
+  STDERR.puts "    If you are trying to pass text, use STDIN."
+  STDERR.puts "    Example"
+  STDERR.puts "    $ cat myfile.txt | subby old new\n\n"
+  STDERR.puts option_parser.help
+  exit(1)
+end
+
+################################################################################
+# IF NO FILE GET IT FROM TERMINAL
+################################################################################
+# Handle ^C
+Signal.trap("SIGINT") do
+  STDERR.puts
+  exit 1
+end
+
+if STDIN.tty?
+  # sed / tr style Read Eval Print Loop
+  while true
+    # Handle EOF
+    if STDIN.eof?
+     exit 0
+    end
+    input = STDIN.gets.chomp
+    STDOUT.puts Subby.sub( input, string_in, string_out, options )
+  end
+################################################################################
+# ELSE WE HAVE A FILE
+################################################################################
+else
+  input = STDIN.read.chomp
+  STDOUT.puts Subby.sub( input, string_in, string_out, options )
+  exit 0
+end
+

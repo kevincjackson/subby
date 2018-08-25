@@ -2,12 +2,10 @@ require 'bundler'
 require 'rdoc/task'
 require 'rubygems/package_task'
 require 'rake/clean'
-# require 'cucumber'
-# require 'cucumber/rake/task'
 
 Bundler::GemHelper.install_tasks
 
-# 
+# Default task = List Tasks
 task :default => [:list_rake_tasks]
 task :list_rake_tasks do
   sh "rake -T"
@@ -27,5 +25,14 @@ end
 
 desc "Run all tests"
 task :test do
-  sh "bats test/test_subby.bats"
+  sh "bats test/subby_ui_test.bats"
+  sh "bundle exec ruby test/case_changer_test.rb"
+  sh "bundle exec ruby test/base_test.rb"
 end
+
+desc "Run unit tests"
+task :unit_test do
+  sh "bundle exec ruby test/case_changer_test.rb"
+  sh "bundle exec ruby test/base_test.rb"
+end
+

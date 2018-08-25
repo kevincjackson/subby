@@ -21,7 +21,7 @@ subby --help
 gem man subby
 
 
-== Developing for `db_backup`
+== Developing for `subby`
 
 First, install bundler:
 gem install bundler
