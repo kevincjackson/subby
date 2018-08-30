@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Kevin Jackson"]
   s.email       = ["kj31428@gmail.com"]
-  s.summary     = %q{Substitutes a string and its case variations}
-  s.description = %q{
-    Substitutes a string and its case variations.
+  s.summary     = %q{Substitutes string case variations.} 
+  s.description = %q{Subby is a command-line tool for substituting string case
+    variations.
   }
 
   # DEPENDENCIES
@@ -18,9 +18,8 @@ Gem::Specification.new do |s|
     lib/subby.rb
     lib/subby/base.rb
     lib/subby/case_changer.rb
-    lib/subby/case_changer/methods.rb
-    man/subby
-    man/subby.html
+    man/subby.1
+    man/subby.1.html
   )
   s.executables   = ['subby']
   s.require_paths = ['lib']

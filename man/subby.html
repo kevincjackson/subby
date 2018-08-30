@@ -54,10 +54,6 @@
 
   <div class='man-navigation' style='display:none'>
     <a href="#NAME">NAME</a>
-    <a href="#SYNOPSIS">SYNOPSIS</a>
-    <a href="#DESCRIPTION">DESCRIPTION</a>
-    <a href="#OPTIONS">OPTIONS</a>
-    <a href="#EXAMPLES">EXAMPLES</a>
   </div>
 
   <ol class='man-decor man-head man head'>
@@ -70,25 +66,8 @@
 <p class="man-name">
   <code>subby</code>
 </p>
-<h2 id="SYNOPSIS">SYNOPSIS</h2>
 
-<p><code>subby</code> <var>string_in</var> <var>string_out</var><br />
-<code>subby</code> <code>-c case,...</code> <var>string_in</var> <var>string_out</var><br /></p>
-
-<h2 id="DESCRIPTION">DESCRIPTION</h2>
-
-<p><strong>subby</strong> is a command-line tool for substituting strings and their
-case variations.</p>
-
-<p>By default <strong>subby</strong> is greedy.  It will substitute all <var>string_in</var>
-case variations that it knows.</p>
-
-<p>Here's a list of cases that <strong>subby</strong> handles.
-Note that class and module are synonyms, as are snake and underscore.</p>
-
-<pre><code>CASE                EXAMPLE
-=====================================
-camel               applePie
+<p>camel               applePie
 class | module      ApplePie
 constant            APPLE_PIE
 dash                apple-pie
@@ -97,51 +76,105 @@ sentence            Apple pie
 snake | underscore  apple_pie
 title               Apple Pie
 upper               APPLE PIE
-</code></pre>
-
-<p>If you wish to limit the cases that subby processes pass the <code>-c</code> option with a
-comma-separated list of desired cases.</p>
-
-<p>If you wish to convert all incoming cases to one particular case pass the
-<code>--case-out</code> option with your desired case.</p>
-
-<p>Note that <code>-c</code> / <code>--case-in</code> takes an array, while <code>--case-out</code> does not.
-If you wish to map variations, a separate <code>subby</code> command would be required for
-each unique outcome variation.</p>
-
-<h2 id="OPTIONS">OPTIONS</h2>
-
-<ul>
-<li><code>-c</code>, <code>--case-in CASE_IN,...</code>:<br />
-          acts as a filter for the list of cases to process<br />
-          valid arguments are the following:<br />
-            camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper
-          default is all of the above</li>
-<li><code>--case-out CASE_OUT</code>:        <br />
-          all incoming strings will be converted to this case<br />
-          valid arguments are the following:<br />
-            camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper
-          default is match (to CASE_IN)</li>
-</ul>
-
-
-<h2 id="EXAMPLES">EXAMPLES</h2>
-
-<dl>
-<dt>Replace 'applePie' and its variations with 'chocolateCake':</dt><dd><p></p>
-
-<p><code>$ cat apple_pie.txt</code><br />
-applePie apple_pie ApplePie ApplePies</p>
-
-<p><code>$ subby applePie chocolateCake &lt; apple_pie.txt</code></p>
-
-<p>chocolateCake chocolate_cake ChocolateCake ChocolateCakes</p></dd>
-<dt>Limit which cases to process:</dt><dd><p></p>
-
-<p><code>$ subby -c camel,snake applePie chocolateCake &lt; apple_pie.txt</code><br />
-chocolateCake chocolate_cake ApplePie ApplePies</p></dd>
-</dl>
-
+.
+.fi
+.
+.IP "" 0
+.
+.P
+If you wish to limit the cases that \fBsubby\fR matches pass the \fB-i\fR option with a comma-separated list of desired cases.
+.
+.P
+If you wish to change the order of substition \fBsubby\fR will follow the order given in the \fB-i\fR option. By default \fBsubby\fR will use the order given in the table above.
+.
+.P
+If you wish to convert all incoming cases to one particular case pass the \fB-o\fR option with your desired case. You may omit \fIstring_out\fR if it\'s the same as \fIstring_in\fR when using \fB-o\fR.
+.
+.P
+Note that \fB-i\fR takes an array, while \fB-o\fR does not. If you wish to map variations, a separate \fBsubby\fR command would be required for each unique outcome variation.
+.
+.SH "OPTIONS"
+.
+.IP "(bu" 4
+\fB-i\fR, \fB--case-in CASE_IN...\fR:
+.
+.br
+acts as a filter/array for the list of cases to match
+.
+.br
+valid arguments are the following:
+.
+.br
+camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper
+.
+.br
+default is all of the above
+.
+.IP "(bu" 4
+\fB-o\fR, \fB--case-out CASE_OUT\fR:
+.
+.br
+all incoming strings will be converted to this case
+.
+.br
+valid arguments are the following:
+.
+.br
+camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper
+.
+.br
+default is match (to CASE_IN)
+.
+.IP "" 0
+.
+.SH "EXAMPLES"
+.
+.IP "(bu" 4
+Replace \'applePie\' variations with \'chocolateCake\':
+.
+.IP
+\fB$ cat apple_pie.txt\fR
+.
+.br
+applePie apple_pie ApplePie ApplePies
+.
+.IP
+\fB$ subby applePie chocolateCake &lt; apple_pie.txt\fR
+.
+.IP
+chocolateCake chocolate_cake ChocolateCake ChocolateCakes
+.
+.IP "(bu" 4
+Limit which cases to process:
+.
+.IP
+\fB$ subby -i camel,snake applePie chocolateCake &lt; apple_pie.txt\fR
+.
+.br
+chocolateCake chocolate_cake ApplePie ApplePies
+.
+.IP "(bu" 4
+Convert camelcases to snakecases.
+.
+.IP
+\fB$ subby -i camel -o snake applePie chocolateCake &lt; apple_pie.txt\fR
+.
+.br
+chocolateCake chocolate_cake ApplePie ApplePies
+.
+.IP "" 0
+.
+.SH "LIMITATIONS"
+Substiting strings "recursively" may yield undesired results. Consider this example.
+.
+.P
+\fB$ echo "a" | subby a aa\fR
+.
+.br
+aaaaaaaaaaaaaaaa
+.
+.P
+The runon of aaa\'s happens because \fBsubby\fR runs 9 separate substitute commands, each time subsituting "aa" for "a". This behavior will most likely change in the future.</p>
 
 
   <ol class='man-decor man-foot man foot'>

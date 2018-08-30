@@ -15,8 +15,8 @@ require 'optparse'
 ################################################################################
 
 EXECUTABLE_NAME = File.basename($PROGRAM_NAME)
-BANNER = "Substitutes a string and its case variations.\n\n" +
-         "Usage: #{EXECUTABLE_NAME} [options] string_in string_out\n\n"
+USAGE = "Usage: #{EXECUTABLE_NAME} [options] string_in string_out" 
+BANNER = "Substitutes a string and its case variations.\n" + USAGE
 CASES = %w( camel class constant dash lower module sentence snake title 
   underscore upper )
 
@@ -28,7 +28,7 @@ option_parser = OptionParser.new do |opts|
 
   opts.banner = BANNER
 
-  opts.on("-c CASE_IN,...", "--case-in", Array,
+  opts.on("-i CASE_IN,...", "--case-in", Array,
     "limit cases to #{CASES.join('|')}") do |ci|
     if ci.any? { |c| !CASES.include? c }
       raise OptionParser::InvalidArgument
@@ -37,7 +37,7 @@ option_parser = OptionParser.new do |opts|
     end
   end
 
-  opts.on("--case-out CASE_OUT", CASES,
+  opts.on("-o CASE_OUT", "--case-out", CASES,
     "convert all incoming to CASE_OUT") do |co|
     options[:case_out] = co
   end
@@ -63,11 +63,13 @@ end
 # Parse arguments
 ################################################################################
 if ARGV.count == 0
-  STDERR.puts "Subby: expected string_in string_out, got neither\n\n"
   STDERR.puts option_parser.help
   exit(1)
+elsif ARGV.count == 1 && options[:case_out]
+  string_in = ARGV[0]
+  string_out = ARGV[0]
 elsif ARGV.count == 1
-  STDERR.puts "Subby: expected string_in string_out, got string_in only\n\n"
+  STDERR.puts "Subby: expected string_in string_out, got string_in only\n"
   STDERR.puts option_parser.help
   exit(1)
 elsif ARGV.count == 2

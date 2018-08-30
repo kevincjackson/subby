@@ -44,25 +44,4 @@ class BaseTest < Minitest::Test
       Subby.sub( INPUT2, "applePie", "chocolateCake"))
   end
 
-  # def test_sub_with_number_in_singular
-  #   assert_equal(
-  #     "chocolateCake CHOCOLATE_CAKE chocolate-cake chocolate cake ChocolateCake Chocolate cake Chocolate Cake chocolate_cake CHOCOLATE CAKE " +
-  #     "chocolateCakes CHOCOLATE_CAKES chocolate-cakes chocolate cakes ChocolateCakes Chocolate cakes Chocolate Cakes chocolate_cakes CHOCOLATE CAKES",
-  #     Subby.sub( INPUT2, "applePie", "chocolateCake", :number_in => 1))
-  # end
-
-  # def test_sub_with_number_in_plural
-  #   assert_equal(
-  #     "applePie APPLE_PIE apple-pie apple pie ApplePie Apple pie Apple Pie apple_pie APPLE PIE " +
-  #     "chocolateCakes CHOCOLATE_CAKES chocolate-cakes chocolate cakes ChocolateCakes Chocolate cakes Chocolate Cakes chocolate_cakes CHOCOLATE CAKES",
-  #     Subby.sub( INPUT2, "applePie", "chocolateCake", :number_in => 2))
-  # end
-
-  # def test_sub_with_number_out_pluralize
-  #   assert_equal(
-  #     "chocolateCakes CHOCOLATE_CAKES chocolate-cakes chocolate cakes ChocolateCakes Chocolate cakes Chocolate Cakes chocolate_cakes CHOCOLATE CAKES " +
-  #     "chocolateCakes CHOCOLATE_CAKES chocolate-cakes chocolate cakes ChocolateCakes Chocolate cakes Chocolate Cakes chocolate_cakes CHOCOLATE CAKES",
-  #     Subby.sub( INPUT2, "applePie", "chocolateCake", :number_out => 2))
-  # end
-
 end

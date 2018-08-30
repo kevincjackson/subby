@@ -20,14 +20,12 @@ module Subby
 
   def self.sub( text="", string_in="", string_out="", opts={} )
 
+    # Setup
     res = text
+    cases_in = self.normalize_options( opts )[:cases_in]
+    case_out = self.normalize_options( opts )[:case_out]
 
-    # Normalize options
-    cases_in = ((opts[:case_in] && [opts[:case_in]].flatten) || CASES).
-      map { |c| CASES_TO_METHOD[c] }.uniq
-    case_out = CASES_TO_METHOD[opts[:case_out]]
-
-    # Number and case loops
+    # Main Loop
     cases_in.each do |case_in|
       res = res.gsub(
         CaseChanger.send( case_in, string_in ),
@@ -35,6 +33,16 @@ module Subby
     end
 
     res
+  end
+
+  private
+
+  def self.normalize_options( opts )
+    cases_in = ((opts[:case_in] && [opts[:case_in]].flatten) || CASES).
+      map { |c| CASES_TO_METHOD[c] }.uniq
+    case_out = CASES_TO_METHOD[opts[:case_out]]
+
+    { cases_in: cases_in, case_out: case_out }
   end
 
 end

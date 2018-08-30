@@ -1,5 +1,4 @@
-# All and only requires go here.
+# Only put require's here!
 require 'subby/base.rb'
 require 'subby/case_changer.rb'
-require 'subby/case_changer/methods.rb'
 

@@ -1,0 +1,91 @@
+## SYNOPSIS
+
+`subby` <string_in> <string_out><br>
+`subby` [`-i` <case_in>...] [`-o` <case_out>] <string_in> <string_out><br>
+`subby` [`-i` <case_in>...] `-o` <case_out> <string_in> [<string_out>]<br>
+
+## DESCRIPTION
+
+**Subby** is a command-line tool for substituting string case variations.
+
+**Subby** reads from standard input and writes to standard output.
+
+By default **subby** is greedy.  It will substitute the 9 <string_in> 
+case variations that it knows. 
+
+Here's the list of cases that **subby** handles.
+Note that class and module are synonyms, as are snake and underscore,
+Also note that camel does not have an upper and lower case form. Upper camel
+is called class or module.
+
+    CASE                EXAMPLE
+    =====================================
+    camel               applePie
+    class | module      ApplePie
+    constant            APPLE_PIE
+    dash                apple-pie
+    lower               apple pie
+    sentence            Apple pie
+    snake | underscore  apple_pie
+    title               Apple Pie
+    upper               APPLE PIE
+
+If you wish to limit the cases that **subby** matches pass the `-i` option with a
+comma-separated list of desired cases.  
+
+If you wish to change the order of substitution **subby** will follow the order given in 
+the `-i` option. By default **subby** will use the order given in the table above.
+
+If you wish to convert all incoming cases to one particular case pass the
+`-o` option with your desired case.  You may omit <string_out> if it's the same
+as <string_in> when using `-o`.
+
+If you wish to map case variations from one to another, note that `-i` takes an
+array, while `-o` does not.  A separate `subby` command would be
+required for each unique outcome variation.
+
+## OPTIONS
+
+  * `-i`, `--case-in CASE_IN...`:  
+              acts as a filter/array for the list of cases to match  
+              valid arguments are the following:  
+                camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper  
+              default is all of the above
+  * `-o`, `--case-out CASE_OUT`:          
+              all incoming strings will be converted to this case  
+              valid arguments are the following:  
+                camel|class|constant|dash|lower|module|sentence|snake|title|underscore|upper  
+              default is match (to CASE_IN)  
+
+## EXAMPLES
+
+* Replace 'applePie' variations with 'chocolateCake':  
+      
+  `$ cat apple_pie.txt`  
+  applePie apple_pie ApplePie ApplePies
+
+  `$ subby applePie chocolateCake < apple_pie.txt`  
+
+  chocolateCake chocolate_cake ChocolateCake ChocolateCakes
+
+* Limit which cases to process:  
+
+  `$ subby -i camel,snake applePie chocolateCake < apple_pie.txt`  
+  chocolateCake chocolate_cake ApplePie ApplePies
+
+* Convert camel-cases to snake-cases.
+
+  `$ subby -i camel -o snake applePie chocolateCake < apple_pie.txt`  
+  chocolateCake chocolate_cake ApplePie ApplePies
+
+## LIMITATIONS
+Substituting strings "recursively" may yield undesired results. 
+Consider this example.
+
+  `$ echo "a" | subby a aa`   
+  aaaaaaaaaaaaaaaa
+
+The run on of aaa's happens because **subby** runs 9 separate substitute commands,
+each time substituting "aa" for "a".  This behavior will most likely change
+in the future.
+
