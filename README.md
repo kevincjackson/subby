@@ -38,7 +38,7 @@ $ gem install subby
 
 ## Documentation:
 ### Online
- <http://htmlpreview.github.io/?https://github.com/kevincjackson/subby/blob/master/man/subby.1.html>
+ <a href="http://htmlpreview.github.io/?https://github.com/kevincjackson/subby/blob/master/man/subby.1.html" target="_blank">Man Page</a>
 ### Terminal
 Usage  
 
