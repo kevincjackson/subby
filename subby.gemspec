@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
 
   # BASIC INFO
   s.name        = "subby"
-  s.version     = "0.0.1"
+  s.version     = "0.0.1.pre"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Kevin Jackson"]
   s.email       = ["kj31428@gmail.com"]
@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.description = %q{Subby is a command-line tool for substituting string case
     variations.
   }
+  s.post_install_message = "Thanks for installing!"
 
   # DEPENDENCIES
   s.files       = %w(
@@ -25,9 +26,9 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.bindir = 'bin'
   s.add_dependency("activesupport")
-  s.add_development_dependency("minitest")
-  s.add_development_dependency("rake","~> 10.1.0")
-  s.add_development_dependency("rdoc","~> 3.9")
+  s.add_development_dependency("minitest", "~> 5")
+  s.add_development_dependency("rake","~> 10")
   s.add_development_dependency("ronn")
+  s.add_development_dependency("yard")
 
 end

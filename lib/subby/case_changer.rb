@@ -11,6 +11,7 @@ module Subby
   module CaseChanger
 
     # Convert string to camel-case.
+    # @example
     #   CaseChanger.to_camelcase("apple pie") # => "applePie"
     # @param str [String] Argument need only respond to +to_s+.
     # @return [String]
@@ -19,6 +20,7 @@ module Subby
     end
 
     # Convert string to class-case.
+    # @example
     #   CaseChanger.to_classcase("applePie") # => "ApplePie"
     # +to_classcase+ is also aliased as +to_modulecase+.
     # @param str [String] Argument need only respond to +to_s+.
@@ -28,6 +30,7 @@ module Subby
     end
 
     # Convert string to constant-case.
+    # @example
     #   CaseChanger.to_constantcase("applePie") # => "APPLE_PIE"
     # @param str [String] Argument need only respond to +to_s+.
     # @return [String]
@@ -36,6 +39,7 @@ module Subby
     end
 
     # Convert string to dash-case.
+    # @example
     #   CaseChanger.to_constantcase("applePie") # => "apple-pie"
     # @param str [String] Argument need only respond to +to_s+.
     # @return [String]
@@ -44,6 +48,7 @@ module Subby
     end
 
     # Convert string to lower-case.
+    # @example
     #   CaseChanger.to_lowercase("applePie") # => "apple pie"
     # @param str [String] Argument need only respond to +to_s+.
     # @return [String]
@@ -52,6 +57,7 @@ module Subby
     end
 
     # Convert string to sentence-case.
+    # @example
     #   CaseChanger.to_sentencecase("applePie") # => "Apple pie"
     # @param str [String] Argument need only respond to +to_s+.
     # @return [String]
@@ -60,6 +66,7 @@ module Subby
     end
 
     # Convert string to underscore-case.
+    # @example
     #   CaseChanger.to_underscorecase("applePie") # => "apple_pie"
     # +to_snakecase+ is also aliased as +to_underscorecase+.
     # @param str [String] Argument need only respond to +to_s+.
@@ -69,6 +76,7 @@ module Subby
     end
 
     # Convert string to title-case.
+    # @example
     #   CaseChanger.to_titlecase("applePie") # => "Apple Pie"
     # @param str [String] Argument need only respond to +to_s+.
     # @return [String]
@@ -77,6 +85,7 @@ module Subby
     end
 
     # Convert string to upper-case.
+    # @example
     #   CaseChanger.to_uppercase("applePie") # => "APPLE PIE"
     # @param str [String] Argument need only respond to +to_s+.
     # @return [String]

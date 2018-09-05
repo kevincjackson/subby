@@ -21,17 +21,17 @@ module Subby
   # It will substitute all string_in case variations that it knows.
   # The case variations with examples are listed above in the +CASES+ constant.
   #
-  #   # Default Usage
+  # @example Default usage
   #   Subby.sub("apple pie applePie apple_pie", "applePie", "chocolateCake")
   #   # => "chocolate cake chocolateCake chocolate_cake"
   #
-  #   # Change one case to another
+  # @example Change one case to another
   #   Subby.sub("apple pie applePie apple_pie", "applePie", "applePie",
   #     :case_in => :camel,
   #     :case_out => :snake)
   #   # => "apple pie apple_pie apple_pie"
   #
-  #   # Only target certain cases
+  # @example Only target certain cases
   #   Subby.sub("apple pie applePie apple_pie", "applePie", "chocolateCake",
   #     :case_in => [:camel, :snake])
   #   # => "apple pie chocolateCake chocolate_cake"
