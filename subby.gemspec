@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
 
   # BASIC INFO
   s.name        = "subby"
-  s.version     = "0.0.1.pre"
+  s.version     = "0.0.1"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Kevin Jackson"]
   s.email       = ["kj31428@gmail.com"]
