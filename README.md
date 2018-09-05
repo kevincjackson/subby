@@ -3,13 +3,15 @@
 **Subby** is a command-line tool for substituting string case variations.
 
 ## Quick Examples
-###### Basic usage.
+### Basic usage.
+
 ```bash
 $ echo "apple pie applePie apple_pie" | subby applePie chocolateCake
 chocolate cake chocolateCake chocolate_cake
 ```
 
-###### Copy and modify a file.
+### Copy and modify a file.
+
 ```bash
 $ cat apple_pie.txt
 apple pie Apple pie applePie
@@ -20,7 +22,8 @@ $ cat chocolate_cake.txt
 chocolate cake Chocolate cake chocolateCake
 ```
 
-###### Change snake case to camel case.
+### Change snake case to camel case.
+
 ```bash
 $ echo "apple pie applePie apple_pie" | subby -i snake -o camel applePie applePie
 apple pie applePie applePie
@@ -34,28 +37,35 @@ $ gem install subby
 ```
 
 ## Documentation:
-##### Online
+### Online
  <https://github.com/kevincjackson/subby/man/subby.1.html>
-##### Terminal
-Basic Usage
+### Terminal
+Usage  
+
 ```bash
 $ subby
 $ subby -h
 $ subby --help
 ```
-Learn about **subby**.
+
+Man Page  
+
 ```bash
 $ gem man subby
 ```
 
 ## Project Organization
-##### Contributing
-Contributions are welcome. If you can improve **subby**, please feel free to fork the project on [github](https://github.com/kevincjackson/subby) and send me a pull request.
+### Contributing
+Contributions are welcome. If you can improve **subby**, please feel free to
+fork the project on [github](https://github.com/kevincjackson/subby) and send
+me a pull request. Unit tests are in Minitest and UI tests are in 
+[BATS](https://github.com/sstephenson/bats) (a simple Bash testing system 
+also used on `rbenv`). Add tests to the Rake `test` and `unit_test` tasks.
 
-##### Bugs and Feature Requests
+### Bugs and Feature Requests
 [Email me.](mailto:kj31428@gmail.com)
 
-##### Author
+### Author
 Kevin Jackson
 
 ## License:

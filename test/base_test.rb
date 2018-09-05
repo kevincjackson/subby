@@ -44,4 +44,33 @@ class BaseTest < Minitest::Test
       Subby.sub( INPUT2, "applePie", "chocolateCake"))
   end
 
+  def test_case_in_as_string
+    assert_equal(
+      "chocolateCake APPLE_PIE apple-pie apple pie ApplePie Apple pie Apple Pie apple_pie APPLE PIE",
+      Subby.sub( INPUT1, "applePie", "chocolateCake", :case_in => "camel"))
+  end
+
+  def test_case_in_as_symbol
+    assert_equal(
+      "chocolateCake APPLE_PIE apple-pie apple pie ApplePie Apple pie Apple Pie apple_pie APPLE PIE",
+      Subby.sub( INPUT1, "applePie", "chocolateCake", :case_in => :camel))
+  end
+
+  def test_case_in_as_array
+    assert_equal(
+      "chocolateCake APPLE_PIE apple-pie apple pie ApplePie Apple pie Apple Pie chocolate_cake APPLE PIE",
+      Subby.sub( INPUT1, "applePie", "chocolateCake", :case_in => [:camel, "snake"]))
+  end
+
+  def test_case_out_as_string
+    assert_equal(
+      "chocolateCake chocolateCake chocolateCake chocolateCake chocolateCake chocolateCake chocolateCake chocolateCake chocolateCake",
+      Subby.sub( INPUT1, "applePie", "chocolateCake", :case_out => "camel"))
+  end
+
+  def test_case_out_as_symbol
+    assert_equal(
+      "chocolateCake chocolateCake chocolateCake chocolateCake chocolateCake chocolateCake chocolateCake chocolateCake chocolateCake",
+      Subby.sub( INPUT1, "applePie", "chocolateCake", :case_out => :camel))
+  end
 end

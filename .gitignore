@@ -4,10 +4,12 @@ developer/architecture.scap
 
 # Docs #
 ########
-# For now unignore when ready.
 doc/
 developer/
 html/
+.yardoc/
+_yardoc/
+rdoc/
 
 # Vim #
 #######

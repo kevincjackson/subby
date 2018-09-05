@@ -2,6 +2,7 @@ require 'bundler'
 require 'rdoc/task'
 require 'rubygems/package_task'
 require 'rake/clean'
+require 'yard'
 
 Bundler::GemHelper.install_tasks
 
@@ -17,10 +18,15 @@ spec = eval(File.read('subby.gemspec'))
 Gem::PackageTask.new(spec) do |pkg|
 end
 
-RDoc::Task.new do |rdoc|
-  rdoc.main = "README.rdoc"
-  rdoc.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
-  rdoc.title = 'subby'
+# RDoc::Task.new do |rdoc|
+#   rdoc.main = "README.rdoc"
+#   rdoc.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
+#   rdoc.title = 'subby'
+# end
+
+YARD::Rake::YardocTask.new do |t|
+ t.files   = ['lib/**/*.rb']   # optional
+ t.stats_options = ['--list-undoc']         # optional
 end
 
 desc "Run all tests"
