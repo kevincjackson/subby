@@ -1,6 +1,11 @@
 # GITIGNORE #
 #############
-developer/architecture.scap
+
+# Gem Packages
+pkg/
+
+# Dev Notes #
+developer/
 
 # Docs #
 ########
